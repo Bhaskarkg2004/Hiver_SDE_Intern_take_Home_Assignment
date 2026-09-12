@@ -17,6 +17,64 @@ The goal is to answer three practical support questions:
 | **Should AI handle this or involve a human?** | Escalation system |
 
 ---
+
+## 📁 Repository Structure
+
+```
+notebook/    -> hiverAssignment.ipynb (full pipeline: data prep, classification,
+                retrieval, reply generation, escalation logic, evaluation, baselines)
+GoldenSet/   -> golden_set_final.csv (280 hand-labeled examples with model
+                predictions for both intent and escalation)
+report/      -> REPORT.md (this report, also included below) and decision log
+README.md    -> this file
+```
+
+## ⚙️ Setup
+
+1. Open `notebook/hiverAssignment.ipynb` in Google Colab.
+2. Mount your Google Drive when prompted (first cell).
+3. Add an NVIDIA NIM API key as a Colab secret named `NVIDIA_API_KEY`
+   (key icon in the left sidebar → add new secret). NVIDIA's NIM API has a
+   free tier and is OpenAI-SDK compatible, which is what this project uses
+   for classification, reply generation, and escalation judging.
+4. The raw dataset comes from the
+   [Customer Support on Twitter](https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter)
+   Kaggle dataset. If reproducing from scratch, download it and place the zip
+   in your Drive at the path referenced in the first data-loading cell.
+
+## ▶️ How to Run (reproducible in under 15 minutes)
+
+The notebook is organized into clearly labeled sections (Setup, Data Pipeline,
+Golden Set Creation, LLM Setup, Intent Classification, Evaluation, Retrieval,
+Reply Generation, Escalation Logic, Baselines) so you can run top to bottom.
+
+**To stay within 15 minutes, two slow steps can be skipped** by loading
+pre-computed outputs already saved to Drive instead of recomputing them:
+
+- **Batch intent classification** (looping the LLM over all 280 golden-set
+  rows) — skip by loading `golden_set_with_predictions.csv` directly instead
+  of re-running the classification loop cell.
+- **Corpus embedding** (embedding the 15,000-message retrieval corpus) — skip
+  by loading `corpus_embeddings.npy` and `retrieval_corpus.csv` directly
+  instead of re-running the `embedder.encode(...)` cell.
+
+With both of these skipped, the remaining cells (evaluation, retrieval
+lookup, reply generation, escalation logic, baselines) run in a couple of
+minutes total, making the whole notebook reviewable well within 15 minutes.
+
+## 🏷️ Golden Set: Sampling and Labeling Method
+
+280 messages (a buffer above the 250 target) were randomly sampled from the
+cleaned, English-filtered Amazon Help customer-to-reply pairs. The sample was
+exported to Google Sheets, where each message was manually labeled with an
+`intent` (13 categories) and a separate boolean `escalate` flag. The final
+labeled file is `GoldenSet/golden_set_final.csv`.
+
+---
+
+
+
+---
 # AI Customer Support Agent for Amazon Help — Report
 
 ## 1. Problem Framing
