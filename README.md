@@ -1,3 +1,22 @@
+# 🚀 Hiver SDE Intern — AI Customer Support Agent
+
+### An end-to-end AI support system built from real customer-support conversations
+
+This project builds an AI customer-support agent for **Amazon Help** using real Twitter support conversations.
+
+Instead of using an LLM as a simple chatbot, the system combines:
+
+**Intent Classification → Semantic Retrieval → Grounded Reply Generation → Human Escalation**
+
+The goal is to answer three practical support questions:
+
+| Question | System Component |
+|---|---|
+| **What does the customer need?** | Intent classifier |
+| **What should we reply?** | Retrieval + LLM generation |
+| **Should AI handle this or involve a human?** | Escalation system |
+
+---
 # AI Customer Support Agent for Amazon Help — Report
 
 ## 1. Problem Framing
